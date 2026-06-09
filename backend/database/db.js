@@ -93,8 +93,8 @@ function runMockQuery(text, params = []) {
     return { rows: user ? [user] : [] };
   }
 
-  // 3. Select User by ID
-  if (normalized.includes('select * from users where id =')) {
+  // 3. Select User by ID (handles SELECT *, SELECT id,name,email,... etc.)
+  if (normalized.includes('from users where id =') || normalized.includes('from users where id=$')) {
     const id = parseInt(params[0], 10);
     const user = mockDb.users.find(u => u.id === id);
     return { rows: user ? [user] : [] };

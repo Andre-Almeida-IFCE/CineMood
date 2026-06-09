@@ -49,11 +49,16 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start listening
-app.listen(PORT, () => {
-  console.log(`===============================================`);
-  console.log(`🎬 CineMood Backend Server is running!`);
-  console.log(`📡 URL: http://localhost:${PORT}`);
-  console.log(`🕒 Started at: ${new Date().toLocaleString()}`);
-  console.log(`===============================================`);
-});
+// Export app for Vercel (serverless)
+module.exports = app;
+
+// Start listening only when running locally (not on Vercel)
+if (process.env.NODE_ENV !== 'production' || process.env.LOCAL_DEV === 'true') {
+  app.listen(PORT, () => {
+    console.log(`===============================================`);
+    console.log(`🎬 CineMood Backend Server is running!`);
+    console.log(`📡 URL: http://localhost:${PORT}`);
+    console.log(`🕒 Started at: ${new Date().toLocaleString()}`);
+    console.log(`===============================================`);
+  });
+}
